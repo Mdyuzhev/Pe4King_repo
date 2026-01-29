@@ -1,0 +1,98 @@
+<idea-plugin>
+    <id>com.pe4king</id>
+    <name>Pe4King - API Test Generator</name>
+    <!-- Version injected by patchPluginXml from gradle.properties -->
+    <vendor email="support@pe4king.dev" url="https://github.com/pe4king">Pe4King</vendor>
+
+    <description><![CDATA[
+        <h2>Pe4King - Deterministic API Test Generator</h2>
+        <p>Generate high-quality API tests from OpenAPI/Swagger specifications.</p>
+
+        <h3>Features:</h3>
+        <ul>
+            <li>Parse OpenAPI 3.x and Swagger 2.0 specifications</li>
+            <li>Generate pytest tests with assertions</li>
+            <li>Generate REST Assured tests (Java)</li>
+            <li>Export to Postman collections</li>
+            <li>Automatic negative test generation</li>
+            <li>Smart assertion inference from schema constraints</li>
+        </ul>
+
+        <h3>Supported Output Formats:</h3>
+        <ul>
+            <li><b>pytest</b> - Python tests with requests library</li>
+            <li><b>REST Assured</b> - Java tests with Hamcrest matchers</li>
+            <li><b>Postman</b> - Collection v2.1 with test scripts</li>
+        </ul>
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <h3>1.0.47</h3>
+        <ul>
+            <li>Versioning synced with VS Code extension</li>
+            <li>Version now managed via gradle.properties</li>
+        </ul>
+        <h3>1.0.0</h3>
+        <ul>
+            <li>Initial release</li>
+            <li>OpenAPI 3.x and Swagger 2.0 parsing</li>
+            <li>pytest, REST Assured, Postman renderers</li>
+        </ul>
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.json</depends>
+    <depends optional="true" config-file="javascript-features.xml">JavaScript</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Tool Window -->
+        <toolWindow id="Pe4King"
+                    anchor="right"
+                    icon="/icons/pe4king.svg"
+                    factoryClass="com.pe4king.ui.Pe4KingToolWindowFactory"/>
+
+        <!-- Project Service -->
+        <projectService serviceImplementation="com.pe4king.services.Pe4KingProjectService"/>
+
+        <!-- Notification Group -->
+        <notificationGroup id="Pe4King" displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <!-- Tools Menu -->
+        <group id="Pe4King.Menu" text="Pe4King" popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+
+            <action id="Pe4King.OpenSpec"
+                    class="com.pe4king.actions.OpenSpecAction"
+                    text="Open Specification..."
+                    description="Open and parse OpenAPI/Swagger specification"
+                    icon="AllIcons.Actions.MenuOpen"/>
+
+            <action id="Pe4King.GenerateTests"
+                    class="com.pe4king.actions.GenerateTestsAction"
+                    text="Generate Tests..."
+                    description="Generate API tests from loaded specification"
+                    icon="AllIcons.Actions.Execute"/>
+
+            <separator/>
+
+            <action id="Pe4King.Settings"
+                    class="com.pe4king.actions.SettingsAction"
+                    text="Settings..."
+                    description="Pe4King settings"
+                    icon="AllIcons.General.Settings"/>
+        </group>
+
+        <!-- Editor Context Menu -->
+        <action id="Pe4King.GenerateFromEditor"
+                class="com.pe4king.actions.GenerateFromEditorAction"
+                text="Generate Pe4King Tests"
+                description="Generate tests from this OpenAPI specification"
+                icon="AllIcons.Actions.Execute">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>

@@ -1,0 +1,139 @@
+{
+  "name": "pe4king",
+  "displayName": "Pe4King",
+  "description": "Generate skeleton API tests from OpenAPI/Swagger specs",
+  "version": "1.0.76",
+  "publisher": "pe4king",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Testing",
+    "Other"
+  ],
+  "keywords": [
+    "openapi",
+    "swagger",
+    "api",
+    "test",
+    "pytest",
+    "rest-assured",
+    "postman"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "pe4king.generateTests",
+        "title": "Pe4King: Select & Generate Tests"
+      },
+      {
+        "command": "pe4king.quickGenerate",
+        "title": "Pe4King: Quick Generate (All Endpoints)"
+      },
+      {
+        "command": "pe4king.openPanel",
+        "title": "Pe4King: Open Generator Panel"
+      },
+      {
+        "command": "pe4king.loadFromUrl",
+        "title": "Pe4King: Load Spec from URL"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .json || resourceExtname == .yaml || resourceExtname == .yml",
+          "command": "pe4king.generateTests",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .json || resourceExtname == .yaml || resourceExtname == .yml",
+          "command": "pe4king.quickGenerate",
+          "group": "navigation"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "pe4king",
+          "title": "Pe4King",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "pe4king": [
+        {
+          "type": "webview",
+          "id": "pe4king.mainView",
+          "name": "Test Generator"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Pe4King",
+      "properties": {
+        "pe4king.defaultFramework": {
+          "type": "string",
+          "default": "pytest",
+          "enum": [
+            "pytest",
+            "rest-assured",
+            "postman"
+          ],
+          "description": "Default test framework"
+        },
+        "pe4king.generateNegativeTests": {
+          "type": "boolean",
+          "default": true,
+          "description": "Generate negative test stubs (400, 401, 404)"
+        },
+        "pe4king.pytestStyle": {
+          "type": "string",
+          "default": "functions",
+          "enum": [
+            "functions",
+            "classes"
+          ],
+          "description": "pytest test style"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "compile": "npm run esbuild-base -- --sourcemap",
+    "watch": "npm run esbuild-base -- --sourcemap --watch",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "clean": "rm -f tmp-* 2>/dev/null || true",
+    "package": "npm run clean && vsce package --out distr/",
+    "eva": "node scripts/eva.js"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
+    "@types/archiver": "^7.0.0",
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/vsce": "^2.22.0",
+    "esbuild": "^0.27.2",
+    "eslint": "^8.50.0",
+    "typescript": "^5.2.0"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "archiver": "^7.0.1",
+    "xlsx": "^0.18.5",
+    "yaml": "^2.3.0"
+  }
+}

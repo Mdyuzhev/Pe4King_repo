@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+out/
+*.vsix
+
+# IDE
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+build/
+bin/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+tmp-*
+*.tmp

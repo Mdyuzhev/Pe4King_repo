@@ -1,0 +1,14 @@
+# Gradle
+.gradle/
+build/
+bin/
+out/
+
+# IDE
+.idea/
+*.iml
+
+# Build artifacts
+*.zip
+build_temp/
+temp_check/
